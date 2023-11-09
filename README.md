@@ -6,11 +6,12 @@
 Pasos para clonar el mejor back de todos los tiempo :O
 
 1. ```yarn install```
-2. Clonar las variables de entorno ```.env.template``` y renombrarlo a ```.env```
-3. Llenar las variables de entorno 
-4. Correr
+2. Si no lo has hecho, creas tu BD local en PgAdmin para las credenciales
+3. Clonar las variables de entorno ```.env.template``` y renombrarlo a ```.env```
+4. Llenar las variables de entorno 
+5. Correr
 ```yarn start:dev```
-7. Ejecutar seed (proximamente)
+6. Ejecutar seed (proximamente)
 ```
 localhost:3000/api/seed
 ```
