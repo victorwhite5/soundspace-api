@@ -28,9 +28,6 @@ export class Cancion {
   @Column('uuid')
   referencia_imagen: string;
 
-  @Column()
-  reproducciones: number;
-
   @ManyToMany(() => Genero, genero => genero.canciones)
   @JoinTable({
     name: 'cancion_genero',

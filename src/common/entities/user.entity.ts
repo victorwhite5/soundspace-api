@@ -1,4 +1,11 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ReproduccionPlaylist } from './reproduccion_playlist.entity';
 import { HistorialEdicion } from './historial_edicion.entity';
 import { ReproduccionCancion } from './reproduccion_cancion.entity';
@@ -23,12 +30,20 @@ export class User {
   @Column({ unique: true })
   telefono: string;
 
-  @OneToMany(() => ReproduccionPlaylist, reproduccion => reproduccion.usuario)
+  @OneToMany(() => 
+    ReproduccionPlaylist, 
+    (reproduccion) => reproduccion.usuario)
   reproducciones: ReproduccionPlaylist[];
 
-  @OneToMany(() => HistorialEdicion, historialEdicion => historialEdicion.usuario)
+  @OneToMany(
+    () => HistorialEdicion,
+    (historialEdicion) => historialEdicion.usuario,
+  )
   historialEdiciones: HistorialEdicion[];
 
-  @OneToMany(() => ReproduccionCancion, reproduccionCancion => reproduccionCancion.usuario)
+  @OneToMany(
+    () => ReproduccionCancion,
+    (reproduccionCancion) => reproduccionCancion.usuario,
+  )
   reproduccionesCanciones: ReproduccionCancion[];
 }

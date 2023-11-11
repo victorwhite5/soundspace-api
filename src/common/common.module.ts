@@ -14,7 +14,20 @@ import { ReproduccionCancion } from './entities/reproduccion_cancion.entity';
 @Module({
   controllers: [],
   providers: [],
-  imports: [TypeOrmModule.forFeature([User, Playlist, ReproduccionPlaylist, HistorialEdicion, PlaylistCancion, PlaylistCreador, Cancion, Genero, Artista, ReproduccionCancion])],
+  imports: [
+    TypeOrmModule.forFeature([
+      User,
+      Playlist,
+      ReproduccionPlaylist,
+      HistorialEdicion,
+      PlaylistCancion,
+      PlaylistCreador,
+      Cancion,
+      Genero,
+      Artista,
+      ReproduccionCancion,
+    ]),
+  ],
   exports: [TypeOrmModule],
 })
 export class CommonModule {}

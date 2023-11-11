@@ -11,16 +11,16 @@ export class Playlist {
   @Column()
   nombre: string;
 
-  @Column()
+  @Column('uuid')
   referencia_imagen: string; //lo puse como string hay q revisar
 
   @Column()
-  Tipo: string; //Tipo de playlist
+  tipo: string; //Tipo de playlist
   /*
   @Column({ default: 0 })
   reproducciones: number; //duplicado en "ReproduccionPlaylist"
   */
-  @OneToMany(() => ReproduccionPlaylist, reproduccion => reproduccion.playlistId)
+  @OneToMany(() => ReproduccionPlaylist, reproduccion => reproduccion.playlist)
   reproducciones: ReproduccionPlaylist[];
 
   @OneToMany(() => PlaylistCancion, playlistCancion => playlistCancion.playlist)
