@@ -19,10 +19,10 @@ export class Cancion {
   @Column({ type: 'timestamp' })
   fecha_creacion: Date;
 
-  @Column('uuid')
+  @Column()
   referencia_cancion: string;
 
-  @Column('uuid')
+  @Column()
   referencia_preview: string;
 
   @Column()
