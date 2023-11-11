@@ -16,7 +16,6 @@ import { HistorialEdicionModule } from './historial_edicion/historial_edicion.mo
 // import { ArtistaModule } from './artista/artista.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
-import { GendersModule } from './genders/genders.module';
 import { GenresModule } from './genres/genres.module';
 import { PlaylistTrendingModule } from './playlist_trending/playlist_trending.module';
 import { ArtistasTrendingModule } from './artistas_trending/artistas_trending.module';
@@ -51,7 +50,6 @@ import { ArtistasTrendingModule } from './artistas_trending/artistas_trending.mo
     // ReproduccionCancionModule,
     ArtistsModule,
     SongsModule,
-    GendersModule,
     GenresModule,
     PlaylistTrendingModule,
     ArtistasTrendingModule,
