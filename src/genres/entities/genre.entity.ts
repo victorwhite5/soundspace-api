@@ -1,1 +1,3 @@
-export class Genre {}
+export class Genre {
+    nombre_genero: string;
+}
