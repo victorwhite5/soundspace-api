@@ -12,6 +12,9 @@ import { Artista } from './entities/artista.entity';
 import { ReproduccionCancion } from './entities/reproduccion_cancion.entity';
 import { PlaylistTrending } from './entities/playlist_trending.entity';
 import { ArtistasTrending } from './entities/artistas_trending.entity';
+import { Operadora } from './entities/operadora.entity';
+import { Telefono } from './entities/telefono.entity';
+import { Prefijo } from './entities/prefijo.entity';
 
 @Module({
   controllers: [],
@@ -29,7 +32,10 @@ import { ArtistasTrending } from './entities/artistas_trending.entity';
       Artista,
       ReproduccionCancion,
       PlaylistTrending,
-      ArtistasTrending
+      ArtistasTrending,
+      Operadora,
+      Telefono,
+      Prefijo,
     ]),
   ],
   exports: [TypeOrmModule],
