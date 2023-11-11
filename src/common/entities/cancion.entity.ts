@@ -25,7 +25,7 @@ export class Cancion {
   @Column('uuid')
   referencia_preview: string;
 
-  @Column('uuid')
+  @Column()
   referencia_imagen: string;
 
   @ManyToMany(() => Genero, genero => genero.canciones)

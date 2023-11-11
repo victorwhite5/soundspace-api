@@ -11,7 +11,7 @@ export class Artista {
   @Column()
   nombre_artista: string;
 
-  @Column('uuid')
+  @Column()
   referencia_imagen: string;
 
   @ManyToMany(() => Cancion, cancion => cancion.artistas)

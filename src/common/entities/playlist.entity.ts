@@ -11,7 +11,7 @@ export class Playlist {
   @Column()
   nombre: string;
 
-  @Column('uuid')
+  @Column()
   referencia_imagen: string; //lo puse como string hay q revisar
 
   @Column()
