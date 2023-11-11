@@ -10,6 +10,8 @@ import { Cancion } from './entities/cancion.entity';
 import { Genero } from './entities/genero.entity';
 import { Artista } from './entities/artista.entity';
 import { ReproduccionCancion } from './entities/reproduccion_cancion.entity';
+import { PlaylistTrending } from './entities/playlist_trending.entity';
+import { ArtistasTrending } from './entities/artistas_trending.entity';
 
 @Module({
   controllers: [],
@@ -26,6 +28,8 @@ import { ReproduccionCancion } from './entities/reproduccion_cancion.entity';
       Genero,
       Artista,
       ReproduccionCancion,
+      PlaylistTrending,
+      ArtistasTrending
     ]),
   ],
   exports: [TypeOrmModule],
