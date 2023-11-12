@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,13 +12,13 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     try {
       const user = this.usersRepository.create(createUserDto);
       await this.usersRepository.save(user);
-      
+
       return user;
 
     } catch (error) {
@@ -36,6 +36,23 @@ export class UsersService {
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
+  }
+
+  async updateUserProfile(uuid: string, userProfile: UpdateUserDto) {
+
+    const userFound = await this.usersRepository.findOne({
+      where: { codigo_usuario: uuid }
+    });
+
+    if (!userFound) {
+      return new HttpException('User by id: ' + uuid +
+        ' can\'t be updated because it wasn\'t found',
+        HttpStatus.NOT_FOUND);
+    }
+
+    const updatedUserProfile = Object.assign(userFound, userProfile);
+    return this.usersRepository.save(updatedUserProfile);
+
   }
 
   remove(id: number) {

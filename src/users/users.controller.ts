@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -22,9 +22,18 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
-  @Patch(':id')
+  /*@Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
+  }*/
+
+  // The code snippet above will be used as a model to handle the
+  // incoming user profile update request in the updateUserProfile():
+
+  @Patch(':uuid')
+  updateUserProfile(@Param('uuid') uuid: string,
+    @Body() userProfile: UpdateUserDto) {
+    return this.usersService.updateUserProfile(uuid, userProfile);
   }
 
   @Delete(':id')

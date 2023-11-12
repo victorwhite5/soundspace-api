@@ -10,6 +10,16 @@ import { ReproduccionPlaylist } from './reproduccion_playlist.entity';
 import { HistorialEdicion } from './historial_edicion.entity';
 import { ReproduccionCancion } from './reproduccion_cancion.entity';
 
+export enum genderOptions {
+  Male = 'Male',
+  Female = 'Female',
+  Polygender = 'Polygender',
+  Nonbinary = 'Nonbinary',
+  Agender = 'Agender',
+  Genderfluid = 'Genderfluid',
+  Other = 'Other'
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -30,8 +40,8 @@ export class User {
   @Column({ unique: true })
   telefono: string;
 
-  @OneToMany(() => 
-    ReproduccionPlaylist, 
+  @OneToMany(() =>
+    ReproduccionPlaylist,
     (reproduccion) => reproduccion.usuario)
   reproducciones: ReproduccionPlaylist[];
 
