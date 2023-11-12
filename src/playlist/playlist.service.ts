@@ -13,6 +13,7 @@ import { PlaylistTrending } from 'src/common/entities/playlist_trending.entity';
 import { Playlist } from 'src/common/entities/playlist.entity';
 import { Repository } from 'typeorm';
 import { convertSeconds } from 'src/common/helpers/convertSeconds.helper';
+import { handleDBExceptions } from '../common/helpers/handleDBExceptions';
 
 @Injectable()
 export class PlaylistService {
@@ -26,29 +27,7 @@ export class PlaylistService {
     private readonly playlistTrendingRepository: Repository<PlaylistTrending>,
   ) {}
 
-  private handleDBExceptions(error: any) {
-    this.logger.error(error);
-    
-    if (error.code === '23505') {
-      throw new BadRequestException(`Product already exists ${error.detail}`);
-    }
-    
-    if (error.status === 500) {
-      throw new InternalServerErrorException(
-        'Unexpected error, check server logs',
-      );
-    }
-
-    if (error.status === 400) {
-      throw new BadRequestException(
-        error.response.message || 'Unexpected error, check server logs',
-      );
-    }
-    
-    throw new InternalServerErrorException(
-      'Unexpected error, check server logs',
-    );
-  }
+  
 
   create(createPlaylistDto: CreatePlaylistDto) {
     return 'This action adds a new playlist';
@@ -85,7 +64,7 @@ export class PlaylistService {
 
       return {
         statusCode: 200,
-        playlist: {
+        data: {
           ...playlist,
           creadores: playlist.creadores.map((c) => c.artista),
           canciones: playlist.canciones.map((c) => {
@@ -100,7 +79,7 @@ export class PlaylistService {
         },
       };
     } catch (error) {
-      this.handleDBExceptions(error);
+      handleDBExceptions(error, this.logger);
     }
   }
 
@@ -125,10 +104,10 @@ export class PlaylistService {
 
       return {
         statusCode: 200,
-        playlist,
+        data: playlist,
       };
     } catch (error) {
-      this.handleDBExceptions(error);
+      handleDBExceptions(error, this.logger);
     }
   }
 }
