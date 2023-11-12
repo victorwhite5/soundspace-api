@@ -11,6 +11,7 @@ import { HistorialEdicionModule } from './historial_edicion/historial_edicion.mo
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
 import { GenresModule } from './genres/genres.module';
+import { PublicidadModule } from './publicidad/publicidad.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { GenresModule } from './genres/genres.module';
     ArtistsModule,
     SongsModule,
     GenresModule,
+    PublicidadModule,
   ],
   controllers: [],
   providers: [],
