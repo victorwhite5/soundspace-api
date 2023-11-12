@@ -15,10 +15,11 @@ import { ArtistasTrending } from './entities/artistas_trending.entity';
 import { Operadora } from './entities/operadora.entity';
 import { Telefono } from './entities/telefono.entity';
 import { Prefijo } from './entities/prefijo.entity';
+import { HandleDBExceptions } from './helpers/handleDBExceptions';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [HandleDBExceptions],
   imports: [
     TypeOrmModule.forFeature([
       User,
@@ -38,6 +39,6 @@ import { Prefijo } from './entities/prefijo.entity';
       Prefijo,
     ]),
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, HandleDBExceptions],
 })
 export class CommonModule {}

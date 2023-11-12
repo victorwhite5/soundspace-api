@@ -6,7 +6,6 @@ import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlaylistModule } from './playlist/playlist.module';
-import { HistorialEdicionModule } from './historial_edicion/historial_edicion.module';
 // import { ReproduccionPlaylistModule } from './reproduccion_playlist/reproduccion_playlist.module';
 // import { PlaylistCancionModule } from './playlist_cancion/playlist_cancion.module';
 // import { PlaylistCreadorModule } from './playlist_creador/playlist_creador.module';
@@ -16,9 +15,8 @@ import { HistorialEdicionModule } from './historial_edicion/historial_edicion.mo
 // import { ArtistaModule } from './artista/artista.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
-import { GenresModule } from './genres/genres.module';
-import { PlaylistTrendingModule } from './playlist_trending/playlist_trending.module';
-import { ArtistasTrendingModule } from './artistas_trending/artistas_trending.module';
+
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -40,7 +38,6 @@ import { ArtistasTrendingModule } from './artistas_trending/artistas_trending.mo
     CommonModule,
     SeedModule,
     PlaylistModule,
-    HistorialEdicionModule,
     // ReproduccionPlaylistModule,
     // PlaylistCancionModule,
     // PlaylistCreadorModule,
@@ -50,9 +47,7 @@ import { ArtistasTrendingModule } from './artistas_trending/artistas_trending.mo
     // ReproduccionCancionModule,
     ArtistsModule,
     SongsModule,
-    GenresModule,
-    PlaylistTrendingModule,
-    ArtistasTrendingModule,
+    SearchModule,
   ],
   controllers: [],
   providers: [],
