@@ -8,6 +8,7 @@ import { ReproduccionCancion } from 'src/common/entities/reproduccion_cancion.en
 import { Repository } from 'typeorm';
 import { User } from 'src/common/entities/user.entity';
 import { Cancion } from 'src/common/entities/cancion.entity';
+import { handleDBExceptions } from '../common/helpers/handleDBExceptions';
 
 @Injectable()
 export class SongsService {
@@ -24,30 +25,6 @@ export class SongsService {
     @InjectRepository(ReproduccionCancion)
     private readonly reproduccionCancionRepository: Repository<ReproduccionCancion>
   ) {}
-
-  private handleDBExceptions(error: any) {
-    this.logger.error(error);
-    
-    if (error.code === '23505') {
-      throw new BadRequestException(`Product already exists ${error.detail}`);
-    }
-    
-    if (error.status === 500) {
-      throw new InternalServerErrorException(
-        'Unexpected error, check server logs',
-      );
-    }
-
-    if (error.status === 400) {
-      throw new BadRequestException(
-        error.response.message || 'Unexpected error, check server logs',
-      );
-    }
-    
-    throw new InternalServerErrorException(
-      'Unexpected error, check server logs',
-    );
-  }
 
   create(createSongDto: CreateSongDto) {
     return 'This action adds a new song';
@@ -81,7 +58,7 @@ export class SongsService {
       
       return blobSong;
     } catch (error) {
-      this.handleDBExceptions(error);
+      handleDBExceptions(error, this.logger);
     }
   }
 
@@ -107,7 +84,7 @@ export class SongsService {
      return {statusCode: 200, link: song.referencia_cancion};
       
     } catch (error) {
-      this.handleDBExceptions(error);
+      handleDBExceptions(error, this.logger);
     }
   }
 

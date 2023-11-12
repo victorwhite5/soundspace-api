@@ -7,10 +7,8 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import { PlaylistModule } from './playlist/playlist.module';
-import { HistorialEdicionModule } from './historial_edicion/historial_edicion.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
-import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -43,10 +41,8 @@ import { GenresModule } from './genres/genres.module';
     CommonModule,
     SeedModule,
     PlaylistModule,
-    HistorialEdicionModule,
     ArtistsModule,
     SongsModule,
-    GenresModule,
   ],
   controllers: [],
   providers: [],

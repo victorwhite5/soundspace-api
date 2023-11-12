@@ -128,7 +128,7 @@
 
 "@azure/storage-blob@^12.17.0":
   version "12.17.0"
-  resolved "https://registry.npmjs.org/@azure/storage-blob/-/storage-blob-12.17.0.tgz"
+  resolved "https://registry.yarnpkg.com/@azure/storage-blob/-/storage-blob-12.17.0.tgz#04aad7f59cb08dbbe5b1b672a9f5b6256c8c9006"
   integrity sha512-sM4vpsCpcCApagRW5UIjQNlNylo02my2opgp0Emi8x888hZUvJ3dN69Oq20cEGXkMUWnoCrBaB0zyS3yeB87sQ==
   dependencies:
     "@azure/abort-controller" "^1.0.0"
@@ -1130,7 +1130,7 @@
     "@types/node" "*"
     form-data "^4.0.0"
 
-"@types/node@*", "@types/node@^20.3.1":
+"@types/node@*", "@types/node@^20.9.0":
   version "20.9.0"
   resolved "http://23.22.253.223:4873/@types%2fnode/-/node-20.9.0.tgz"
   integrity sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==
@@ -2815,7 +2815,11 @@ fs.realpath@^1.0.0:
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.3"
+<<<<<<< HEAD
   resolved "http://23.22.253.223:4873/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
+=======
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
+>>>>>>> 81c20bae3959fd35af2461fa975a2edee2099738
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
