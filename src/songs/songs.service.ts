@@ -81,7 +81,7 @@ export class SongsService {
 
       await this.reproduccionCancionRepository.save(reproduccionCancion);
 
-     return {statusCode: 200, link: song.referencia_cancion};
+     return {statusCode: 200, data: song.referencia_cancion};
       
     } catch (error) {
       handleDBExceptions(error, this.logger);

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 
 export const handleDBExceptions = (error: any, logger: Logger) => {
@@ -19,6 +20,12 @@ export const handleDBExceptions = (error: any, logger: Logger) => {
 
   if (error.status === 400) {
     throw new BadRequestException(
+      error.response.message || 'Unexpected error, check server logs',
+    );
+  }
+
+  if (error.status === 404) {
+    throw new NotFoundException(
       error.response.message || 'Unexpected error, check server logs',
     );
   }

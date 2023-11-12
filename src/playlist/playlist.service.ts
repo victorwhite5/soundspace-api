@@ -64,7 +64,7 @@ export class PlaylistService {
 
       return {
         statusCode: 200,
-        playlist: {
+        data: {
           ...playlist,
           creadores: playlist.creadores.map((c) => c.artista),
           canciones: playlist.canciones.map((c) => {
@@ -104,7 +104,7 @@ export class PlaylistService {
 
       return {
         statusCode: 200,
-        playlist,
+        data: playlist,
       };
     } catch (error) {
       handleDBExceptions(error, this.logger);

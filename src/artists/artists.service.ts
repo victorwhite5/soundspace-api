@@ -18,7 +18,6 @@ export class ArtistsService {
   constructor(
     @InjectRepository(Artista)
     private readonly artistRepository: Repository<Artista>,
-    //private readonly handler: HandleDBExceptions,
     
   ) {}
   
@@ -30,7 +29,10 @@ export class ArtistsService {
         .select(['a.codigo_artista', 'a.nombre_artista', 'a.referencia_imagen'])
         .getMany();
 
-      return playlist;
+      return {
+        statusCode: 200,
+        data: playlist
+      };
     } catch (error) {
       handleDBExceptions(error, this.logger);
     }

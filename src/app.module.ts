@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PlaylistModule } from './playlist/playlist.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { SongsModule } from './songs/songs.module';
     PlaylistModule,
     ArtistsModule,
     SongsModule,
+    SearchModule
   ],
   controllers: [],
   providers: [],

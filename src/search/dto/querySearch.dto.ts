@@ -8,6 +8,6 @@ export class QuerySearchDto extends PartialType(PaginationDto) {
 
     @IsOptional()
     @Type(() => String)
-    @IsIn(['artista', 'cancion'])
+    @IsIn(['artist', 'song'])
     type?: string
 }
