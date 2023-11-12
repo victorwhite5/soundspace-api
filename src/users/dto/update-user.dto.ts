@@ -21,7 +21,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     @IsIn([genderOptions.Male, genderOptions.Female,
     genderOptions.Polygender, genderOptions.Nonbinary,
     genderOptions.Agender, genderOptions.Genderfluid,
-    genderOptions.Other],
-        { message: 'The \"genero\" attribute must be one of the following: Male, Female, Polygender, Nonbinary, Agender, Genderfluid, Other' })
+    genderOptions.Nodisplay, genderOptions.Other],
+        { message: 'The \"genero\" attribute must be one of the following: Male, Female, Polygender, Nonbinary, Agender, Genderfluid, Other, Nodisplay' })
     genero?: string;
 }

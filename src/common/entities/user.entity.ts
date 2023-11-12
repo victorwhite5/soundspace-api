@@ -17,7 +17,8 @@ export enum genderOptions {
   Nonbinary = 'Nonbinary',
   Agender = 'Agender',
   Genderfluid = 'Genderfluid',
-  Other = 'Other'
+  Other = 'Other',
+  Nodisplay = 'Nodisplay'
 }
 
 @Entity()

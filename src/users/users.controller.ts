@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -31,9 +31,16 @@ export class UsersController {
   // incoming user profile update request in the updateUserProfile():
 
   @Patch(':uuid')
-  updateUserProfile(@Param('uuid') uuid: string,
-    @Body() userProfile: UpdateUserDto) {
-    return this.usersService.updateUserProfile(uuid, userProfile);
+  async updateUserProfile(@Param('uuid') uuid: string,
+    @Body() userProfile: UpdateUserDto): Promise<void> {
+    try {
+      await this.usersService.updateUserProfile(uuid, userProfile);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw new HttpException(error.message, error.getStatus());
+      }
+      throw new HttpException('Unexpected error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Delete(':id')

@@ -38,20 +38,21 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  async updateUserProfile(uuid: string, userProfile: UpdateUserDto) {
+  async updateUserProfile(uuid: string,
+    userProfile: UpdateUserDto): Promise<void | HttpException> {
 
     const userFound = await this.usersRepository.findOne({
       where: { codigo_usuario: uuid }
     });
 
     if (!userFound) {
-      return new HttpException('User by id: ' + uuid +
+      throw new HttpException('User by id: ' + uuid +
         ' can\'t be updated because it wasn\'t found',
         HttpStatus.NOT_FOUND);
     }
 
     const updatedUserProfile = Object.assign(userFound, userProfile);
-    return this.usersRepository.save(updatedUserProfile);
+    await this.usersRepository.save(updatedUserProfile);
 
   }
 
