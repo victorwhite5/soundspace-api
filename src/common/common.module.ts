@@ -15,6 +15,7 @@ import { ArtistasTrending } from './entities/artistas_trending.entity';
 import { Operadora } from './entities/operadora.entity';
 import { Telefono } from './entities/telefono.entity';
 import { Prefijo } from './entities/prefijo.entity';
+import { Publicidad } from './entities/publicidad.entity';
 
 @Module({
   controllers: [],
@@ -36,6 +37,7 @@ import { Prefijo } from './entities/prefijo.entity';
       Operadora,
       Telefono,
       Prefijo,
+      Publicidad
     ]),
   ],
   exports: [TypeOrmModule],
