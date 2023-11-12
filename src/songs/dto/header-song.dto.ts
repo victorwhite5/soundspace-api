@@ -8,7 +8,7 @@ export class HeaderDto {
     // @Type(() => Number)//enableImplicitConvertions: true
     // token?:string;
 
-    @Min(0)
+    @Min(1)
     @Type(() => String)
     user:string;
 
