@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, ParseUUIDPipe, Headers } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import { HeaderDto } from './dto/header-song.dto';
 
 @Controller('songs')
 export class SongsController {
@@ -18,13 +19,15 @@ export class SongsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const {song, ...resto} = await this.songsService.findOne(id);
-    const obj = {
-      song: song,
-      ...resto
-    }
-    return obj;
+  async findOne(@Param('id', ParseUUIDPipe) id: string, @Res() res, @Headers() headerDto: HeaderDto) {
+    const song = await this.songsService.findOne(id, headerDto);
+    return song.pipe(res);
+  }
+
+  @Get('link/:id')
+  async findLink(@Param('id', ParseUUIDPipe) id: string,  @Headers() headerDto: HeaderDto) {
+    return await this.songsService.findLink(id, headerDto);
+    
   }
 
   @Patch(':id')
