@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Artista } from './artista.entity';
+import { Artista } from './artist.entity';
 
 @Entity('artistas_trending')
 export class ArtistasTrending {
