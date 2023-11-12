@@ -12,4 +12,9 @@ export class PaginationDto {
     @Min(0)
     @Type(() => Number)
     offset?:number;
+
+    @IsOptional()
+    @Min(0)
+    @Type(() => String)
+    type?: string;
 }
