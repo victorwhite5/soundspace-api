@@ -13,9 +13,9 @@ export class SongsController {
     return this.songsService.create(createSongDto);
   }
 
-  @Get()
-  findAll() {
-    return this.songsService.findAll();
+  @Get('tracklist')
+  findFew() {
+    return this.songsService.findFew();
   }
 
   @Get(':id')
