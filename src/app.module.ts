@@ -10,6 +10,7 @@ import { PlaylistModule } from './playlist/playlist.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
 import { SearchModule } from './search/search.module';
+import { PublicidadModule } from './publicidad/publicidad.module';
 
 @Module({
   imports: [
@@ -44,7 +45,8 @@ import { SearchModule } from './search/search.module';
     PlaylistModule,
     ArtistsModule,
     SongsModule,
-    SearchModule
+    SearchModule,
+    PublicidadModule,
   ],
   controllers: [],
   providers: [],
