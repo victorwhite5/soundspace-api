@@ -17,8 +17,6 @@ export class AuthService {
   private readonly logger = new Logger('AuthService');
 
   constructor(
-
-
     @InjectRepository(Operadora)
     private operadoraRepository: Repository<Operadora>,
 
@@ -55,17 +53,16 @@ export class AuthService {
     }
   }
 
-
   async findByNumber(number: string) {
     try {
       const user = await this.userRepository.findOne({
         where: {
           telefono: number,
         },
-      })
+      });
 
-      if(!user) {
-        throw new NotFoundException(`User with number: ${number} not found`)
+      if (!user) {
+        return null;
       }
 
       return user;
@@ -74,78 +71,94 @@ export class AuthService {
     }
   }
 
-  async validateOperator(validateOperator: ValidateOperator) {
-    // try {
-    //   const prefijos = await this.findPrefixesById(
-    //     validateOperator.operadoraId,
-    //   );
-
-    //   //Ignorar si se ingresa el numero con 58424...
-    //   let numeroSin58: string;
-    //   if (validateOperator.number.startsWith('58')) {
-    //     numeroSin58 = validateOperator.number.slice(2);
-    //   } else {
-    //     //Si no contiene el 58 se deja el numero como estaba:
-    //     numeroSin58 = validateOperator.number;
-    //   }
-
-    //   const primerosTresDigitos = numeroSin58.slice(0, 3);
-
-    //   const coincidenciaEncontrada = prefijos.includes(primerosTresDigitos);
-
-    //   if (coincidenciaEncontrada) {
-
-    //     const user = await this.findByNumber(validateOperator.number);
-
-    //     if (user) {
-    //       return new BadRequestException(`User with number ${validateOperator.number} already exists `);
-    //     }
-
-    //     const nuevoTelefono = this.telefonoRepository.create({
-    //       numero: numeroSin58,
-    //       operadora: { codigo_operadora: data.uuid },
-    //     });
-
-    //     //Insert en tabla telefono:
-    //     await this.telefonoRepository.save(nuevoTelefono);
-
-    //     const nuevoUsuario = this.userRepository.create({
-    //       telefono: numeroSin58,
-    //     });
-
-    //     //Insert en tabla "user":
-    //     await this.userRepository.save(nuevoUsuario);
-
-    //     // Todo Fino:
-    //     return 'Bienvenido a la aplicación SoundSpace :)';
-    //   } else {
-    //     //Se seleccionó una operadora pero con un numero que no concuerda
-    //     return 'Su numero no concuerda con la operadora seleccionada';
-    //   }
-    //   //Ojo Pelao:
-    // } catch (error) {
-    //   console.error('Error', error.message);
-    //   return 'Error al comparar prefijos';
-    // }
-  }
-
-  //Srvicio para verificar existencia de tlf antes de iniciar sesion:
-  async loginByPhoneNumber(numero: string): Promise<string> {
+  async findPhoneInOperadora(number: string) {
     try {
-      const usuario = await this.userRepository.findOne({
-        where: { telefono: numero },
+      const telefono = await this.telefonoRepository.findOne({
+        where: {
+          numero: number,
+        },
       });
 
-      if (usuario) {
-        return 'Inicio de sesión exitoso, Bienvenido a SoundSpace :D';
-      } else {
-        return 'Usuario no encontrado';
+      if (!telefono) {
+        throw new BadRequestException(`Phone number: ${number} not found`);
       }
+
+      return true;
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Error al verificar el inicio de sesión',
-        error.message,
+      handleDBExceptions(error, this.logger);
+    }
+  }
+
+  async validateOperator(validateOperator: ValidateOperator) {
+    const user = await this.findByNumber(validateOperator.number);
+    //Verificar que existe el numero registrado en la app:
+    if (user) {
+      return new BadRequestException(
+        `User with number ${validateOperator.number} already exists `,
       );
+    } else {
+      //Si el numero no se encuentra registrado
+      const prefixes = await this.findPrefixesById(
+        validateOperator.operadoraId,
+      );
+
+      //Ignorar si se ingresa el numero con 58424...
+      let originalNumber: string;
+      if (validateOperator.number.startsWith('58')) {
+        originalNumber = validateOperator.number.slice(2);
+      } else {
+        //Si no contiene el 58 se deja el numero como estaba:
+        originalNumber = validateOperator.number;
+      }
+
+      const first3Digits = originalNumber.slice(0, 3);
+
+      //Verificar que el numero ingresado coincida con las operadoras disponibles:
+      const matchFound = prefixes.includes(first3Digits);
+
+      if (!matchFound) {
+        throw new NotFoundException(
+          'El número ingresado no coincide con las operadoras disponibles',
+        );
+      }
+
+      const phoneFound = await this.findPhoneInOperadora(
+        validateOperator.number,
+      );
+
+      if (matchFound && phoneFound) {
+        const nuevoUsuario = this.userRepository.create({
+          telefono: originalNumber,
+        });
+
+        //Insert en tabla "user":
+        const savedUser = await this.userRepository.save(nuevoUsuario);
+
+        // Todo Fino:
+        return {
+          statusCode: 200,
+          message: 'Bienvenido a la aplicación SoundSpace :)',
+          codigo_usuario: savedUser.codigo_usuario,
+        };
+      } else {
+        //Se seleccionó una operadora pero con un numero que no concuerda
+        return 'Su numero no concuerda con la operadora seleccionada';
+      }
+    }
+  }
+
+  //Servicio para verificar existencia de tlf antes de iniciar sesion:
+  async loginByPhoneNumber(validateOperator: ValidateOperator) {
+    const user = await this.findByNumber(validateOperator.number);
+    //Verificar que existe el numero registrado en la app:
+    if (user) {
+      return {
+        statusCode: 200,
+        message: 'Inicio de sesión exitoso, Bienvenido a SoundSpace :D',
+        codigo_usuario: user.codigo_usuario,
+      };
+    } else {
+      throw new NotFoundException('Usuario no encontrado');
     }
   }
 }
