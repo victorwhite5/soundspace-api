@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cancion } from 'src/common/entities/cancion.entity';
@@ -9,7 +9,7 @@ import { handleDBExceptions } from 'src/common/helpers/handleDBExceptions';
 @Injectable()
 export class SearchService {
   private readonly logger = new Logger('SearchService');
-  
+
   constructor(
     @InjectRepository(Cancion)
     private readonly songRepository: Repository<Cancion>,
@@ -19,7 +19,7 @@ export class SearchService {
 
   async findFew(term: string, querySearchDto: QuerySearchDto) {
     const { type = 'song' } = querySearchDto;
-    
+
     let results = [];
 
     try {
@@ -37,7 +37,6 @@ export class SearchService {
           ])
           .limit(5)
           .getMany();
-  
       } else if (type === 'artist') {
         results = await this.artistRepository
           .createQueryBuilder('artista')
@@ -52,22 +51,17 @@ export class SearchService {
           .limit(5)
           .getMany();
       }
-    } catch (error) {
-      handleDBExceptions('Unexpected error, check server logs', this.logger);
-    }
-    
-    if(results.length === 0) {
-      const error = {
-        status: 404,
-        response: {
-          message: `The artist or song ${term} was not found`,
-        }
+
+      if (results.length === 0) {
+        throw new NotFoundException(`The ${type} ${term} was not found`);
       }
+
+      return {
+        statusCode: 200,
+        data: results,
+      };
+    } catch (error) {
       handleDBExceptions(error, this.logger);
-    }
-    return {
-      statusCode: 200,
-      data: results
     }
   }
 }

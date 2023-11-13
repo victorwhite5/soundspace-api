@@ -1,4 +1,9 @@
+import { IsString } from 'class-validator';
+
 export class CreateArtistDto {
-    nombre_artista: string;
-    referencia_imagen: string;
+  @IsString()
+  readonly nombre_artista: string;
+
+  @IsString()
+  readonly referencia_imagen: string;
 }
