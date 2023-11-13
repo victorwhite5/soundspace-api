@@ -10,7 +10,7 @@ import { PlaylistModule } from './playlist/playlist.module';
 import { ArtistsModule } from './artists/artists.module';
 import { SongsModule } from './songs/songs.module';
 import { SearchModule } from './search/search.module';
-import { PublicidadModule } from './publicidad/publicidad.module';
+import { PublicidadModule } from './Publicidad/publicidad.module';
 
 @Module({
   imports: [
