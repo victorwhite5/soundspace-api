@@ -2,8 +2,6 @@ import {
   NotFoundException,
   BadRequestException,
   Injectable,
-  HttpException,
-  HttpStatus,
   Logger,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,7 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../common/entities/user.entity';
-import { handleDBExceptions } from 'src/common/helpers/handleDBExceptions';
+import { handleDBExceptions } from '../common/helpers/handleDBExceptions';
 
 @Injectable()
 export class UsersService {
@@ -39,10 +37,10 @@ export class UsersService {
         where: {
           telefono: number,
         },
-      })
+      });
 
-      if(!user) {
-        throw new NotFoundException(`User with number: ${number} not found`)
+      if (!user) {
+        throw new NotFoundException(`User with number: ${number} not found`);
       }
 
       return user;
@@ -86,8 +84,30 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+
+  async updateUserProfile(id: string, userProfile: UpdateUserDto) {
+    try {
+
+      const {telefono, ...toUpdate} = userProfile;
+      const userFound = await this.usersRepository.findOne({
+        where: { codigo_usuario: id },
+      });
+
+      if (!userFound) {
+        throw new NotFoundException(`User with id: ${id} not found`);
+      }
+
+      const updatedUserProfile = Object.assign(userFound, toUpdate);
+
+      await this.usersRepository.save(updatedUserProfile);
+
+      return {
+        statusCode: 200,
+        data: `User with id: ${id} updated successfully`,
+      };
+    } catch (error) {
+      handleDBExceptions(error, this.logger);
+    }
   }
 
   remove(id: number) {

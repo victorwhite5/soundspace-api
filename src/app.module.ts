@@ -16,17 +16,6 @@ import { PublicidadModule } from './Publicidad/publicidad.module';
   imports: [
     ConfigModule.forRoot(),
 
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: process.env.DB_HOST,
-    //   port: +process.env.DB_PORT,
-    //   database: process.env.DB_NAME,
-    //   username: process.env.DB_USERNAME,
-    //   password: process.env.DB_PASSWORD,
-    //   autoLoadEntities: true,
-    //   synchronize: true,
-    // }),
-
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -34,9 +23,20 @@ import { PublicidadModule } from './Publicidad/publicidad.module';
       database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      autoLoadEntities: true,
       synchronize: true,
     }),
+
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: process.env.DB_HOST,
+    //   port: +process.env.DB_PORT,
+    //   database: process.env.DB_NAME,
+    //   username: process.env.DB_USERNAME,
+    //   password: process.env.DB_PASSWORD,
+    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //   synchronize: true,
+    // }),
     
     AuthModule,
     UsersModule,
