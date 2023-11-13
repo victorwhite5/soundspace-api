@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsOptional, IsPositive, Min, MinLength } from "class-validator";
+import { IsOptional, IsPositive, IsUUID, Min, MinLength } from "class-validator";
 
 export class HeaderDto {
     
@@ -8,8 +8,8 @@ export class HeaderDto {
     // @Type(() => Number)//enableImplicitConvertions: true
     // token?:string;
 
-    @MinLength(1)
-    @Type(() => String)
+    @IsUUID()
+    //@Type(() => String)
     user:string;
 
 }

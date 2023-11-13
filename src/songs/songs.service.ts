@@ -65,6 +65,10 @@ export class SongsService {
   async findLink(id: string, headerDto: HeaderDto) {
     try {
 
+      if(!headerDto.user) {
+        throw new BadRequestException('An user is required');
+      }
+
       const user = await this.userRepository.findOneBy({codigo_usuario: headerDto.user});
       
       const song = await this.cancionRepository.findOneBy({codigo_cancion: id});
