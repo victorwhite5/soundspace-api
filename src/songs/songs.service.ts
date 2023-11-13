@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User } from 'src/common/entities/user.entity';
 import { Cancion } from 'src/common/entities/cancion.entity';
 import { handleDBExceptions } from '../common/helpers/handleDBExceptions';
+import { convertSeconds } from 'src/common/helpers/convertSeconds.helper';
 
 @Injectable()
 export class SongsService {
@@ -24,14 +25,46 @@ export class SongsService {
 
     @InjectRepository(ReproduccionCancion)
     private readonly reproduccionCancionRepository: Repository<ReproduccionCancion>
+
   ) {}
 
   create(createSongDto: CreateSongDto) {
     return 'This action adds a new song';
   }
 
-  findAll() {
-    return `This action returns all songs`;
+  async findFew() {
+   try {   
+    const topsongs = await this.reproduccionCancionRepository
+    .createQueryBuilder("h")
+    .innerJoinAndSelect(Cancion, "cancion", "h.cancionCodigoCancion = cancion.codigo_cancion")
+    .select([
+        "h.cancionCodigoCancion",
+        "cancion.nombre_cancion",
+        "cancion.duracion",
+        "cancion.referencia_imagen"
+    ])
+    .groupBy("h.cancionCodigoCancion")
+    .addGroupBy("cancion.nombre_cancion")
+    .addGroupBy("cancion.duracion")
+    .addGroupBy("cancion.referencia_imagen")
+    .orderBy("COUNT(h.cancionCodigoCancion)", "DESC")
+    .limit(5)
+    .getRawMany();
+
+    const resp = topsongs.map(cancion => ({
+      codigo: cancion.cancionCodigoCancion,
+      nombre: cancion.cancion_nombre_cancion,
+      duracion: convertSeconds(cancion.cancion_duracion),
+      referencia: cancion.cancion_referencia_imagen
+  }));
+
+  return {
+    statusCode: 200,
+    data: resp
+  }
+    } catch (error) {
+      handleDBExceptions(error, this.logger);
+    } 
   }
 
   async findOne(id: string, headerDto: HeaderDto) {
@@ -71,7 +104,7 @@ export class SongsService {
       
       if (!user || !song) {
         throw new BadRequestException('User or song not found');
-    }
+      }
 
       const reproduccionCancion = this.reproduccionCancionRepository.create({
         fecha_reproduccion: new Date(),
@@ -81,7 +114,7 @@ export class SongsService {
 
       await this.reproduccionCancionRepository.save(reproduccionCancion);
 
-     return {statusCode: 200, data: song.referencia_cancion};
+      return {statusCode: 200, data: song.referencia_cancion};
       
     } catch (error) {
       handleDBExceptions(error, this.logger);
