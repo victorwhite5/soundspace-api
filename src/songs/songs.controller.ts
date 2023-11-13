@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, ParseUUIDPipe, Headers } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, ParseUUIDPipe, Headers, BadRequestException } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
@@ -13,9 +13,9 @@ export class SongsController {
     return this.songsService.create(createSongDto);
   }
 
-  @Get()
-  findAll() {
-    return this.songsService.findAll();
+  @Get('tracklist')
+  findFew() {
+    return this.songsService.findFew();
   }
 
   @Get(':id')
@@ -25,9 +25,8 @@ export class SongsController {
   }
 
   @Get('link/:id')
-  async findLink(@Param('id', ParseUUIDPipe) id: string,  @Headers() headerDto: HeaderDto) {
+  async findLink(@Param('id', ParseUUIDPipe) id: string,  @Headers() headerDto: HeaderDto) {  
     return await this.songsService.findLink(id, headerDto);
-    
   }
 
   @Patch(':id')
