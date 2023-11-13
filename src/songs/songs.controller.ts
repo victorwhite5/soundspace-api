@@ -26,12 +26,7 @@ export class SongsController {
 
   @Get('link/:id')
   async findLink(@Param('id', ParseUUIDPipe) id: string,  @Headers() headerDto: HeaderDto) {
-    if(!headerDto.user){
-      throw new BadRequestException('An user is required for this request');
-    }
-      
-    return await this.songsService.findLink(id, headerDto);
-    
+    return await this.songsService.findLink(id, headerDto); 
   }
 
   @Patch(':id')
