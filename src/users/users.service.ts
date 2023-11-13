@@ -33,6 +33,24 @@ export class UsersService {
     }
   }
 
+  async findByNumber(number: string) {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          telefono: number,
+        },
+      })
+
+      if(!user) {
+        throw new NotFoundException(`User with number: ${number} not found`)
+      }
+
+      return user;
+    } catch (error) {
+      handleDBExceptions(error, this.logger);
+    }
+  }
+
   async findById(codigo_usuario: string) {
     try {
       const user = await this.usersRepository.findOne({
