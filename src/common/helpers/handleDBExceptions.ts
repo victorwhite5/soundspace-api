@@ -24,9 +24,7 @@ export const handleDBExceptions = (error: any, logger: Logger) => {
     );
   }
 
-  if (error.status === 404) {
-    console.log('salio');
-    
+  if (error.status === 404) {    
     throw new NotFoundException(
       error.response.message || 'Unexpected error, check server logs',
     );
