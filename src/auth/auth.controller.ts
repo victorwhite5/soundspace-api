@@ -1,6 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ValidateOperator } from './dto/validate-operator.dto';
+import { ValidateOperatorDto } from './dto/validate-operator.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,8 +15,8 @@ export class AuthController {
 
   //Endpoint para Verificar numero ingresado segun operadora y registro de usuario
   @Post('validate_operator')
-  validarOperadora(@Body() validateOperator: ValidateOperator) {
-    return this.authService.validateOperator(validateOperator);
+  validarOperadora(@Body() validateOperatorDto: ValidateOperatorDto) {
+    return this.authService.validateOperator(validateOperatorDto);
   }
 
   @Post('find-by-number')
@@ -26,7 +27,7 @@ export class AuthController {
   //Método para iniciar sesión por número de teléfono
   //Método para iniciar sesión por número de teléfono
   @Post('login')
-  async login(@Body() validateOperator: ValidateOperator) {
-    return this.authService.loginByPhoneNumber(validateOperator);
+  async login(@Body() loginDto: LoginDto) {
+    return this.authService.loginByPhoneNumber(loginDto);
   }
 }
