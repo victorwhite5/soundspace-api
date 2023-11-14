@@ -117,6 +117,12 @@ export class AuthService {
         validateOperatorDto.operadoraId,
       );
 
+      if(!prefixes || prefixes.length === 0) {
+        throw new BadRequestException(
+          `The operator id ${validateOperatorDto.operadoraId} does not exist`,
+        );
+      }
+
       const first3Digits = originalNumber.slice(0, 3);
 
       //Verificar que el numero ingresado coincida con las operadoras disponibles:
