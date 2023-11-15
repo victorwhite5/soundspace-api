@@ -109,7 +109,7 @@ export class AuthService {
       //Verificar que existe el numero registrado en la app:
       if (user) {
         throw new BadRequestException(
-          `User with number ${originalNumber} already exists `,
+          `Ya existe un usuario registrado con el número ${originalNumber}`,
         );
       }
       //Si el numero no se encuentra registrado
@@ -130,7 +130,7 @@ export class AuthService {
 
       if (!matchFound) {
         throw new NotFoundException(
-          `The number ${originalNumber} does not exist in the selected operator, must be an ${prefixes}`,
+          `El numero ${originalNumber} no pertenece a la operadora seleccionada, debe ser ${prefixes}`,
         );
       }
 
@@ -155,7 +155,7 @@ export class AuthService {
       } else {
         //Se seleccionó una operadora pero con un numero que no concuerda
         throw new BadRequestException(
-          `The number ${originalNumber} does not exist in the selected operator`,
+          `El numero ${originalNumber} no existe en la operadora seleccionada`,
         );
       }
     } catch (error) {
