@@ -85,7 +85,7 @@ export class AuthService {
       });
 
       if (!telefono) {
-        throw new NotFoundException(`Phone number: ${number} not found`);
+        throw new NotFoundException(`El numero de telefono: ${number} no existe`);
       }
 
       return true;
