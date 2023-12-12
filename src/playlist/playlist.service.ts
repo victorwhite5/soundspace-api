@@ -39,7 +39,7 @@ export class PlaylistService {
 
   async findOne(id: string) {
     try {
-      const playlist = await this.playlistRepository
+      const playlist = await this.playlistRepository 
         .createQueryBuilder('p')
         .select(['p.nombre', 'p.referencia_imagen', 'p.tipo'])
         .leftJoinAndSelect('p.creadores', 'pc')

@@ -105,13 +105,13 @@ export class AuthService {
         originalNumber = validateOperatorDto.number;
       }
 
-      const user = await this.findByNumber(originalNumber);
-      //Verificar que existe el numero registrado en la app:
-      if (user) {
-        throw new BadRequestException(
-          `Ya existe un usuario registrado con el número ${originalNumber}`,
-        );
-      }
+      // const user = await this.findByNumber(originalNumber);
+      // //Verificar que existe el numero registrado en la app:
+      // if (user) {
+      //   throw new BadRequestException(
+      //     `Ya existe un usuario registrado con el número ${originalNumber}`,
+      //   );
+      // }
       //Si el numero no se encuentra registrado
       const prefixes = await this.findPrefixesById(
         validateOperatorDto.operadoraId,
@@ -139,24 +139,29 @@ export class AuthService {
       );
 
       if (matchFound && phoneFound) {
-        const nuevoUsuario = this.userRepository.create({
-          telefono: originalNumber,
-        });
+        // const nuevoUsuario = this.userRepository.create({
+        //   telefono: originalNumber,
+        // });
 
-        //Insert en tabla "user":
-        const savedUser = await this.userRepository.save(nuevoUsuario);
+        // //Insert en tabla "user":
+        // const savedUser = await this.userRepository.save(nuevoUsuario);
 
         // Todo Fino:
         return {
           statusCode: 200,
+          success: true,
           message: 'Bienvenido a la aplicación SoundSpace :)',
-          codigo_usuario: savedUser.codigo_usuario,
         };
       } else {
         //Se seleccionó una operadora pero con un numero que no concuerda
-        throw new BadRequestException(
-          `El numero ${originalNumber} no existe en la operadora seleccionada`,
-        );
+        return {
+          statusCode: 400,
+          success: false,
+          message: 'El numero no concuerda con la operadora seleccionada',
+        }
+        // throw new BadRequestException(
+        //   `El numero ${originalNumber} no existe en la operadora seleccionada`,
+        // );
       }
     } catch (error) {
       handleDBExceptions(error, this.logger);
