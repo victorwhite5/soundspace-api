@@ -85,7 +85,8 @@ export class AuthService {
       });
 
       if (!telefono) {
-        throw new NotFoundException(`El numero de telefono: ${number} no existe`);
+        return false;
+        // throw new NotFoundException(`El numero de telefono: ${number} no existe`);
       }
 
       return true;
@@ -157,7 +158,7 @@ export class AuthService {
         return {
           statusCode: 400,
           success: false,
-          message: 'El numero no concuerda con la operadora seleccionada',
+          message: 'El numero no concuerda con la operadora seleccionada o no existe',
         }
         // throw new BadRequestException(
         //   `El numero ${originalNumber} no existe en la operadora seleccionada`,
