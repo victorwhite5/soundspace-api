@@ -86,10 +86,12 @@ export class AuthService {
 
       if (!telefono) {
         // return false;
-        throw new NotFoundException(`El numero de telefono: ${number} no existe`);
+        throw new NotFoundException(
+          `El numero de telefono: ${number} no existe`,
+        );
       }
 
-      return true;
+      return telefono;
     } catch (error) {
       handleDBExceptions(error, this.logger);
     }
@@ -118,7 +120,7 @@ export class AuthService {
         validateOperatorDto.operadoraId,
       );
 
-      if(!prefixes || prefixes.length === 0) {
+      if (!prefixes || prefixes.length === 0) {
         throw new BadRequestException(
           `The operator id ${validateOperatorDto.operadoraId} does not exist`,
         );
@@ -135,24 +137,37 @@ export class AuthService {
         );
       }
 
-      const phoneFound = await this.findPhoneInOperadora(
-        originalNumber,
-      );
+      // const phoneFound = await this.findPhoneInOperadora(
+      //   originalNumber,
+      // );
+      const phoneFound = await this.telefonoRepository.findOne({
+        where: {
+          numero: originalNumber,
+        },
+      });
 
       if (matchFound && phoneFound) {
-        // const nuevoUsuario = this.userRepository.create({
-        //   telefono: originalNumber,
-        // });
+        if (phoneFound.subscrito){
+          throw new BadRequestException(
+            `Ese numero ya esta asociado a una subscripcion`,
+          );
+        }
 
-        // //Insert en tabla "user":
-        // const savedUser = await this.userRepository.save(nuevoUsuario);
+        phoneFound.subscrito = true;
+        await this.telefonoRepository.save(phoneFound);
+          // const nuevoUsuario = this.userRepository.create({
+          //   telefono: originalNumber,
+          // });
 
-        // Todo Fino:
-        return {
-          statusCode: 200,
-          success: true,
-          message: 'Bienvenido a la aplicación SoundSpace :)',
-        };
+          // //Insert en tabla "user":
+          // const savedUser = await this.userRepository.save(nuevoUsuario);
+
+          // Todo Fino:
+          return {
+            statusCode: 200,
+            success: true,
+            message: 'Bienvenido a la aplicación SoundSpace :)',
+          };
       } else {
         //Se seleccionó una operadora pero con un numero que no concuerda
         // return {

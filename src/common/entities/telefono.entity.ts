@@ -15,6 +15,9 @@ export class Telefono {
   @Column()
   numero: string;
 
+  @Column({default: false})
+  subscrito: boolean;
+
   @ManyToOne(() => Operadora, (operadora) => operadora.telefonos)
   @JoinColumn({ name: 'fk_operadora' }) // Personaliza el nombre de la columna de la clave foránea
   operadora: Operadora;
